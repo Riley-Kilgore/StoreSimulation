@@ -13,3 +13,7 @@ class EmployeeCheckOutAgent(object):
 
     def tick(self):
         self.eventClock = self.eventClock + 1
+
+    def addToLine(self, customer):
+        self.customers.put(customer)
+        
