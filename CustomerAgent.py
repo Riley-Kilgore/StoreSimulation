@@ -11,11 +11,13 @@ class CustomerAgent(object):
         self.cartSize = 0
         self.hasntPaid = True
 
+        # Initialize the values for the customers cart stochastically.
         pdfNum = random.randint(0,250)
-        if(pdfNum <= 50) cartSize = random.randint(1,2)
-        elif(pdfNum <= 110) cartSize = random.randint(3,10)
-        elif(pdfNum <= 184) cartSize = random.randint(11,20)
-        else cartSize = random.randint(21,60)
+        self.cartSize = None
+        if(pdfNum <= 50): self.cartSize = random.randint(1,2)
+        elif(pdfNum <= 110): self.cartSize = random.randint(3,10)
+        elif(pdfNum <= 184): self.cartSize = random.randint(11,20)
+        else: self.cartSize = random.randint(21,60)
     
     def choose_checkout(self, numOfLines):
         """
