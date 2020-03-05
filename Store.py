@@ -28,8 +28,9 @@ class Store(object):
         """
         if self.global_time % 10 == 0:
             customer = CustomerAgent()
-            lane = customer.choose_checkout(self.store)
-            store(lane).addToLine(customer)
+            lane = customer.choose_checkout(len(self.store))
+            self.store[lane].addToLine(customer)
         for i, each in enumerate(self.store):
+            print(f"Processing line {i} of {len(self.store)}")
             each.process()
-       
+        return self
