@@ -12,6 +12,7 @@ class SelfCheckOutAgent(object):
         self.customers = queue.Queue()
         self.currentCustomer = None
         self.eventClock = 0
+        self.total_items = 0
     
     def process(self):
         """
@@ -40,3 +41,12 @@ class SelfCheckOutAgent(object):
         Add the given customer to the internal queue.
         """
         self.customers.put(customer)
+
+
+    def get_decision_factors(self):        
+        # In order of priority: 
+        # line length, total items accross the lime, and type of checkout station
+        return (self.total_items, self.customers.qsize(), 'self')  
+
+    def visual_attributes(self):
+        return ((0.01, 0.1, 0.9), (2, 2))
