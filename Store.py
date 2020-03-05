@@ -12,12 +12,21 @@ class Store(object):
     def __init__(self, n):
         self.global_time = 0
         self.store = []
+        # Creates either an employee checkout line or self checkout line n times and
+        #   keeps the values in a list.
         for i in range(n):
             checkout = EmployeeCheckOutAgent() if random() < .5 else SelfCheckOutAgent()
             self.store.append(checkout)
 
     def run_step(self):
-        if self.global_time % 2 == 0:
+        """
+        run_step increments the internal timer by one tick, as well as calling the methods
+          offered by its internal variables in order to advance the simulation.
+        Precondition: The store has not been modified by external programs.
+        Postcondition: A single tick has occurred in the simulated environment.
+        Return: self
+        """
+        if self.global_time % 10 == 0:
             customer = CustomerAgent()
             lane = customer.choose_checkout(self.store)
             store(lane).addToLine(customer)
