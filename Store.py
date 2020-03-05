@@ -12,9 +12,10 @@ class Store(object):
             self.store.append(checkout)
 
     def run_step(self):
-        if self.global_time % 10 == 0:
+        if self.global_time % 2 == 0:
             customer = CustomerAgent()
-            store = customer.choose_checkout(self.store)
-            store.add_customer(customer)
+            lane = customer.choose_checkout(self.store)
+            store(lane).addToLine(customer)
         for i, each in enumerate(self.store):
             each.process()
+       
