@@ -18,3 +18,7 @@ class Store(object):
             store.add_customer(customer)
         for i, each in enumerate(self.store):
             each.process()
+
+    def add_customer(self, customer):
+        lane = random.randint(0, len(store))
+        store(lane).addToLine(customer)
