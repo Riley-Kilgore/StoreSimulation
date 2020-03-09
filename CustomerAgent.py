@@ -5,26 +5,37 @@ The CustomerAgent implements methods to choose a lane to checkout,
 """
 import random
 
+
+def choose_checkout(numOfLines):
+    """
+    Returns the index in the line that the customer should go to.
+    This is currently stochastic and based upon a uniform distribution.
+    """
+    return random.randint(0, numOfLines)
+
+
+def visual_attributes():
+    return 0.01, 0.9, 0.1
+
+
 class CustomerAgent(object):
     def __init__(self):
-        self.timeElapsed= 0
+        self.timeElapsed = 0
         self.cartSize = 0
         self.hasntPaid = True
+        self.paymentTime = 0
 
         # Initialize the values for the customers cart stochastically.
-        pdfNum = random.randint(0,250)
+        pdfNum = random.randint(0, 250)
         self.cartSize = None
-        if(pdfNum <= 50): self.cartSize = random.randint(1,2)
-        elif(pdfNum <= 110): self.cartSize = random.randint(3,10)
-        elif(pdfNum <= 184): self.cartSize = random.randint(11,20)
-        else: self.cartSize = random.randint(21,60)
-    
-    def choose_checkout(self, numOfLines):
-        """
-        Returns the index in the line that the customer should go to.
-        This is currently stochastic and based upon a uniform distribution.
-        """
-        return random.randint(0, numOfLines)
+        if pdfNum <= 50:
+            self.cartSize = random.randint(1, 2)
+        elif pdfNum <= 110:
+            self.cartSize = random.randint(3, 10)
+        elif pdfNum <= 184:
+            self.cartSize = random.randint(11, 20)
+        else:
+            self.cartSize = random.randint(21, 60)
 
     def process_with(self, secPerItem, timeOffset):
         """
@@ -33,9 +44,9 @@ class CustomerAgent(object):
         # If the customer is out of items:
         if self.cartSize == 0:
             # We check if they're in payment.
-            if self.hasntPaid == True:
+            if self.hasntPaid:
                 # If so, we set them to paying, and
-                self.hasntPaid == False
+                self.hasntPaid = False
                 # we set the payment start time to the current offset.
                 self.paymentTime = timeOffset
             # Now they are in payment mode no matter what, so we call payment.
@@ -44,7 +55,7 @@ class CustomerAgent(object):
         if timeOffset % secPerItem == 0:
             # Do it. Don't let your dreams be dreams.
             self.cartSize -= 1
-        
+
     def pay_for_cart(self, startTime, timeOffset):
         """
         Wait to pay and return None when it's time to leave.
@@ -55,8 +66,3 @@ class CustomerAgent(object):
             return None
         # Gotta stay in the front of the line, paying, forever...
         return self
-
-    def visual_attributes(self):
-        return (0.01, 0.9, 0.1)
-        
-        

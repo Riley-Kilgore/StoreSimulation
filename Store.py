@@ -2,7 +2,7 @@
 The Store is used to represent a the physical store in the model.
 The Store orchestrates the operations of the other classes.
 """
-from CustomerAgent import CustomerAgent
+from CustomerAgent import CustomerAgent, choose_checkout
 from EmployeeCheckOutAgent import EmployeeCheckOutAgent
 from SelfCheckOutAgent import SelfCheckOutAgent
 from random import random
@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from constants import *
 import numpy as np
+
 
 class Store(object):
     # Constructor
@@ -38,7 +39,7 @@ class Store(object):
         """
         if self.global_time % 10 == 0:
             customer = CustomerAgent()
-            lane = customer.choose_checkout(self.store) #chosen lane (checkout object)
+            lane = choose_checkout(self.store)  # chosen lane (checkout object)
             self.store[lane].addToLine(customer)
         for i, each in enumerate(self.store):
             print(f"Processing line {i} of {len(self.store)}")
