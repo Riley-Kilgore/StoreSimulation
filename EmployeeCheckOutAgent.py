@@ -5,14 +5,16 @@ The EmployeeCheckOutAgent implements methods to process customers, add them to
 """
 #TODO REMOVE ALL MAGIC NUMBERS, REPLACE WITH CONST NAMES
 import queue
+from constants import *
 
 class EmployeeCheckOutAgent(object):
-    def __init__(self):
+    def __init__(self, x):
         self.secPerItem= 2
         self.customers = queue.Queue()
         self.currentCustomer = None
         self.eventClock = 0
         self.total_items = 0
+        self.x = x
     
     def process(self):
         """
@@ -48,5 +50,13 @@ class EmployeeCheckOutAgent(object):
         return (self.total_items, self.customers.qsize(), 'self')  
 
     def visual_attributes(self):
-        return ((0.9, 0.01, 0.01), (4, 2))  
+        return ((0.9, 0.01, 0.01), (4, 2))
+
+    def display_line(self, grid):
+        for y in range(self.customers.qsize):
+            curr = self.customers.get()
+            grid[2*y][self.x + EMPLOYEE_WIDTH + 1] = curr.visual_attributes()
+            self.customers.put(curr)
+        return grid
+
   

@@ -5,14 +5,16 @@ The SelfCheckOutAgent implements methods to process customers, add them to
 """
 #TODO REMOVE ALL MAGIC NUMBERS, REPLACE WITH CONST NAMES
 import queue
+from constants import *
 
 class SelfCheckOutAgent(object):
-    def __init__(self):
+    def __init__(self, x):
         self.secPerItem = 5
         self.customers = queue.Queue()
         self.currentCustomer = None
         self.eventClock = 0
         self.total_items = 0
+        self.x = x
     
     def process(self):
         """
@@ -50,3 +52,11 @@ class SelfCheckOutAgent(object):
 
     def visual_attributes(self):
         return ((0.01, 0.1, 0.9), (2, 2))
+
+    
+    def display_line(self, grid):
+        for y in range(self.customers.qsize):
+            curr = self.customers.get()
+            grid[2*y][self.x + SELF_WIDTH + 1] = curr.visual_attributes()[0]
+            self.customers.put(curr)
+        return grid

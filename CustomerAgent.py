@@ -55,5 +55,8 @@ class CustomerAgent(object):
             return None
         # Gotta stay in the front of the line, paying, forever...
         return self
+
+    def visual_attributes(self):
+        return (0.01, 0.9, 0.1)
         
         
