@@ -15,7 +15,7 @@ class EmployeeCheckOutAgent(object):
         self.secPerItem = 2
         self.customers = queue.Queue()
         self.currentCustomer = None
-        self.eventClock = 0
+        self.eventClock = 1
         self.total_items = 0
         self.x = x
         self.y = y
@@ -37,14 +37,17 @@ class EmployeeCheckOutAgent(object):
         if self.customers.empty() and not self.currentCustomer:
             return None
 
-        if self.currentCustomer is None:
-            self.eventClock = 0
+        elif self.currentCustomer is None:
+            self.currentCustomer = self.customers.get()
+
+        elif self.currentCustomer.finished:
+            self.eventClock = 1
             self.currentCustomer = self.customers.get()
             self.customersProcessed += 1
 
-        self.currentCustomer = self.currentCustomer.process_with(self.eventClock, self.secPerItem)
+        self.currentCustomer.process_with(self.eventClock, self.secPerItem)
         self.tick()
-        return self.currentCustomer
+        # return self.currentCustomer
 
     def tick(self):
         """

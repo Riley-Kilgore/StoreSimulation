@@ -76,14 +76,14 @@ class Store(object):
             self.store[lane].addToLine(customer)
 
         for i, each in enumerate(self.store):
-            print(f"Register {i + 1} at {self.time_of_hour} seconds has processed {each.customersProcessed} people")
+            print(f"Register {i + 1} at {self.time_of_day} seconds has processed {each.customersProcessed} people")
             each.process()
 
-        for register in self.store:
-            self.grid = register.display_line(self.grid)
+        # for register in self.store:
+        #     self.grid = register.display_line(self.grid)
 
         self.time_of_day += 1                               # the time of the day increments by one
-        if self.time_of_hour is not SECONDS_IN_HOUR:        # if still in the hour
+        if self.time_of_hour != SECONDS_IN_HOUR:        # if still in the hour
             self.time_of_hour += 1
         else:                                               # else it is the top of the next hour
             self.hour = self.time_of_day // SECONDS_IN_HOUR  # finds the current hour of the day the simulator is at

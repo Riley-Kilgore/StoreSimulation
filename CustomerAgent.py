@@ -23,6 +23,7 @@ class CustomerAgent(object):
         self.processing = False
         self.x = x
         self.y = y
+        self.finished = False
 
         # Initialize the values for the customers cart stochastically.
         pdfNum = random.randint(0, 250)
@@ -38,7 +39,7 @@ class CustomerAgent(object):
 
         # default cart size for now, for debugging purposes
         self.cartSize = 20
-        
+
     def process_step(self, store):
         """
         Given the store, a customer can process a single unit of time for themselves.
@@ -63,6 +64,9 @@ class CustomerAgent(object):
         """
         Processes the items in the cart for the current time step.
         """
+        # increments customer waiting time
+        self.timeElapsed += 1
+
         # If the customer is out of items:
         if self.cartSize == 0:
             # We check if they're in payment.
@@ -72,9 +76,9 @@ class CustomerAgent(object):
                 # we set the payment start time to the current offset.
                 self.paymentTime = timeOffset
             # Now they are in payment mode no matter what, so we call payment.
-            return self.pay_for_cart(self.paymentTime, timeOffset)
+            self.pay_for_cart(self.paymentTime, timeOffset)
         # If it's time to move an item from the cart:
-        if timeOffset % secPerItem == 0:
+        if timeOffset % secPerItem == 0 and self.hasntPaid:
             # Do it. Don't let your dreams be dreams.
             self.cartSize -= 1
 
@@ -85,6 +89,4 @@ class CustomerAgent(object):
         # Are we done paying? 85 seconds, phew...
         if timeOffset - startTime >= 85:
             # WOOOO, we are released.
-            return None
-        # Gotta stay in the front of the line, paying, forever...
-        return self
+            self.finished = True

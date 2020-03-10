@@ -2,12 +2,14 @@ from Store import Store
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-store = Store(1)
-time = 100
+numRegisters = 1
+
+store = Store(numRegisters)
+time = 86400
 grids_over_time = []
 
 for t in range(time):
-    grids_over_time.append(store.grid)
+    # grids_over_time.append(store.grid)
     store.run_step()
 
 totalProcessed = 0
@@ -22,6 +24,7 @@ for i in range(24):
 
 print("Total customers:", totalCustomers)
 print("Customers Processed: ", totalProcessed)
+print("Time per person: ", round(time / (totalProcessed / numRegisters), 2), "seconds per customer")
 
 
 # fig = plt.figure()
