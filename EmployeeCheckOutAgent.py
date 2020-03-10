@@ -13,7 +13,7 @@ class EmployeeCheckOutAgent(object):
 
     def __init__(self, x, y):
         self.secPerItem = 2
-        self.customers = queue.Queue()
+        self.customers = []
         self.currentCustomer = None
         self.eventClock = 1
         self.total_items = 0
@@ -34,20 +34,20 @@ class EmployeeCheckOutAgent(object):
         Post-Condition: self.currentCustomer is updated and time ticks.
         Return: The current customer. None if customer has just paid or if queue is empty.
         """
-        if self.customers.empty() and not self.currentCustomer:
+        if len(self.customers) == 0 and not self.currentCustomer:
             return None
+        if self.currentCustomer is None:
+            self.eventClock = 0
 
-        elif self.currentCustomer is None:
-            self.currentCustomer = self.customers.get()
-
-        elif self.currentCustomer.finished:
-            self.eventClock = 1
-            self.currentCustomer = self.customers.get()
+        if self.currentCustomer is None:
+            self.eventClock = 0
+            self.currentCustomer = self.customers[0]
+            del self.customers[0]
             self.customersProcessed += 1
 
-        self.currentCustomer.process_with(self.eventClock, self.secPerItem)
+        self.currentCustomer = self.currentCustomer.process_with(self.eventClock, self.secPerItem)
         self.tick()
-        # return self.currentCustomer
+        return self.currentCustomer
 
     def tick(self):
         """
@@ -59,16 +59,15 @@ class EmployeeCheckOutAgent(object):
         """
         Add the given customer to the internal queue.
         """
-        self.customers.put(customer)
+        self.customers.append(customer)
 
     def get_decision_factors(self):
         # In order of priority: 
         # line length, total items across the lime, and type of checkout station
-        return self.total_items, self.customers.qsize(), 'self'
+        return self.total_items, len(self.customers), 'self'
 
     def display_line(self, grid):
-        for y in range(self.customers.qsize()):
-            curr = self.customers.get()
-            # grid[2 * y][self.x + EMPLOYEE_WIDTH + 1] = curr.visual_attributes()
-            self.customers.put(curr)
+        for y in range(len(self.customers)):
+            curr = self.customers[y]
+            grid[2 * y][self.x + SELF_WIDTH + 1] = curr.visual_attributes()[0]
         return grid

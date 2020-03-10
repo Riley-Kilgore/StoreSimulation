@@ -1,16 +1,19 @@
 from Store import Store
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+from matplotlib.animation import ArtistAnimation
 
-numRegisters = 1
+numRegisters = 2
 
 store = Store(numRegisters)
-time = 86400
+time = 864
 grids_over_time = []
 
+fig = plt.figure()
+ims = []
 for t in range(time):
-    # grids_over_time.append(store.grid)
+    ims.append([plt.imshow(store.grid)])
     store.run_step()
+ims.append([plt.imshow(store.grid)])
 
 totalProcessed = 0
 
@@ -22,21 +25,13 @@ totalCustomers = 0
 for i in range(24):
     totalCustomers += store.simCustomers[i]
 
-print("Total customers:", totalCustomers)
-print("Customers Processed: ", totalProcessed)
-print("Time per person: ", round(time / (totalProcessed / numRegisters), 2), "seconds per customer")
+# print("Total customers:", totalCustomers)
+# print("Customers Processed: ", totalProcessed)
+# print("Time per person: ", round(time / (totalProcessed / numRegisters), 2), "seconds per customer")
+
+    
 
 
-# fig = plt.figure()
-# im = plt.imshow(grids_over_time[2])
-#
-#
-# def updateSimulation(data):
-#     store.run_step()
-#     im.set_array(data)
-#     return [im]
-#
-#
-# # animation = FuncAnimation(fig, updateSimulation, frames=grids_over_time, blit=True)
-#
-# plt.show()
+animation = ArtistAnimation(fig, ims, interval=10, blit=True)
+
+plt.show()

@@ -4,7 +4,7 @@ import CustomerAgent
 from constants import *
 
 
-def choose_checkout(self, lines):
+def choose_checkout(lines):
     curr_choice = 0
     best_stats = lines[0].get_decision_factors()
     index = 0
@@ -29,7 +29,7 @@ def choose_checkout(self, lines):
 
             index += 1
 
-    return lines[curr_choice]
+    return curr_choice
 
 
 def move_towards_location(x1, y1, x2, y2):

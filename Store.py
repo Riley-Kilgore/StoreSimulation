@@ -70,7 +70,7 @@ class Store(object):
             customer = CustomerAgent(rowPosition, WIDTH - 1)
 
             # chooses the register number to go to
-            lane = choose_checkout(len(self.store) - 1)
+            lane = choose_checkout(self.store)
 
             # adds the customer to the register object
             self.store[lane].addToLine(customer)
@@ -121,6 +121,3 @@ class Store(object):
             index += 1
         return grid
 
-    def updateSimulation(self, *args):
-        self.run_step()
-        self.im.set_array(self.grid)
