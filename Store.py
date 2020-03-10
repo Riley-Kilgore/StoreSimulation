@@ -22,9 +22,8 @@ class Store(object):
         self.remainderTimeSum = 0       # this is to keep track of the remainder time between customers
         self.hour = 0
 
-
         
-        self.simCustomers = createCustomers()
+        self.simCustomers, self.totalCustomers = createCustomers()
         self.timeDif = self.timeBetweenCustomers(self.hour)
 
         self.store = []

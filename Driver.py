@@ -10,6 +10,17 @@ for t in range(time):
     grids_over_time.append(store.grid)
     store.run_step()
 
+totalProcessed = 0
+
+# tracks the number actually processed by each register to compare with total analytical number
+for register in store.store:
+    totalProcessed += register.customersProcessed
+
+
+print("Total customers in hour ", store.hour[0], ":", store.simCustomers[0])
+print("Customers Processed: ", totalProcessed)
+
+
 # fig = plt.figure()
 # im = plt.imshow(grids_over_time[2])
 #

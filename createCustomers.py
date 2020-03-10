@@ -43,4 +43,7 @@ def createCustomers():
         numCustomers = 0
         hour = 0
 
-    return simNumCustomers
+    # totalCustomers is all of the customers this simulation would process over the entire 24 hour day
+    totalCustomers = sum(simNumCustomers)
+
+    return simNumCustomers, totalCustomers
