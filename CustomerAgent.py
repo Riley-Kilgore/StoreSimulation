@@ -6,6 +6,7 @@ The CustomerAgent implements methods to choose a lane to checkout,
 import random
 from checkoutLogic import move_towards_location, choose_checkout
 
+
 def visual_attributes():
     return 0.01, 0.9, 0.1
 
@@ -34,7 +35,7 @@ class CustomerAgent(object):
             self.cartSize = random.randint(11, 20)
         else:
             self.cartSize = random.randint(21, 60)
-    
+
     def process_step(self, store):
         """
         Given the store, a customer can process a single unit of time for themselves.
@@ -54,8 +55,6 @@ class CustomerAgent(object):
         if self.hasntPaid and not event_occured:
             self.process_with(self.timeElapsed, self.line.secPerItem)
             event_occured = True
-        
-
 
     def process_with(self, timeOffset, secPerItem):
         """
