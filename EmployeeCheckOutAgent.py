@@ -11,13 +11,14 @@ from constants import *
 class EmployeeCheckOutAgent(object):
     customersProcessed = 0
 
-    def __init__(self, x):
+    def __init__(self, x, y):
         self.secPerItem = 2
         self.customers = queue.Queue()
         self.currentCustomer = None
         self.eventClock = 0
         self.total_items = 0
         self.x = x
+        self.y = y
 
 
     @staticmethod

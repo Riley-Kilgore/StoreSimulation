@@ -4,26 +4,24 @@ The CustomerAgent implements methods to choose a lane to checkout,
   process its cart, and pay for the items in the cart.
 """
 import random
-
-
-def choose_checkout(numOfLines):
-    """
-    Returns the index in the line that the customer should go to.
-    This is currently stochastic and based upon a uniform distribution.
-    """
-    return random.randint(0, numOfLines)
-
+from checkoutLogic import move_towards_location, choose_checkout
 
 def visual_attributes():
     return 0.01, 0.9, 0.1
 
 
 class CustomerAgent(object):
-    def __init__(self):
+    def __init__(self, x, y):
         self.timeElapsed = 0
         self.cartSize = 0
         self.hasntPaid = True
         self.paymentTime = 0
+        self.movingToLine = False
+        self.inLine = False
+        self.line = None
+        self.processing = False
+        self.x = x
+        self.y = y
 
         # Initialize the values for the customers cart stochastically.
         pdfNum = random.randint(0, 250)
@@ -36,6 +34,28 @@ class CustomerAgent(object):
             self.cartSize = random.randint(11, 20)
         else:
             self.cartSize = random.randint(21, 60)
+    
+    def process_step(self, store):
+        """
+        Given the store, a customer can process a single unit of time for themselves.
+        """
+        self.timeElapsed += 1
+        event_occured = False
+        if not self.movingToLine:
+            self.line = store.store[choose_checkout(len(store.store))]
+            self.movingToLine = True
+            event_occured = True
+        if not self.processing and not event_occured:
+            location = move_towards_location(self.x, self.y, self.line.x, self.line.y)
+            self.x = location[0]
+            self.y = location[1]
+            self.processing = location[2]
+            event_occured = True
+        if self.hasntPaid and not event_occured:
+            self.process_with(self.timeElapsed, self.line.secPerItem)
+            event_occured = True
+        
+
 
     def process_with(self, timeOffset, secPerItem):
         """
