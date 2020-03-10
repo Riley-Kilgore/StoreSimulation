@@ -21,11 +21,12 @@ class Store(object):
         self.time_of_hour = 0           # this is the number of seconds into the hour
         self.remainderTimeSum = 0       # this is to keep track of the remainder time between customers
         self.hour = 0
+        
+        self.simCustomers = createCustomers()
         self.timeDif = self.timeBetweenCustomers(self.hour)
 
         self.store = []
         self.fig = plt.figure()
-        self.simCustomers = createCustomers()
 
         for i in range(n):
             checkout = EmployeeCheckOutAgent(
