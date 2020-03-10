@@ -49,7 +49,7 @@ class Store(object):
 
         numNewCustomers = 0                         # this is the number of customers added during this tick
 
-        if self.time_of_hour / self.timeDif[0] is 0:    # if the time between customers arriving has elapsed
+        if self.time_of_hour // self.timeDif[0] is 0:    # if the time between customers arriving has elapsed
 
             numNewCustomers += 1
             self.remainderTimeSum += self.timeDif[1]
@@ -75,7 +75,7 @@ class Store(object):
         if self.time_of_hour is not SECONDS_IN_HOUR:        # if still in the hour
             self.time_of_hour += 1
         else:                                               # else it is the top of the next hour
-            self.hour = self.time_of_day / SECONDS_IN_HOUR  # finds the current hour of the day the simulator is at
+            self.hour = self.time_of_day // SECONDS_IN_HOUR  # finds the current hour of the day the simulator is at
 
             # timeDIf is a tuple, first element is the even ticks between people
             # second element is the remainder time
@@ -84,7 +84,7 @@ class Store(object):
             self.time_of_hour = 0                           # restarts the hourly clock, which is in seconds
 
     def timeBetweenCustomers(self, hour):
-        exactTime = SECONDS_IN_HOUR / self.simCustomers[hour]  # number of ticks between integer division of customers
+        exactTime = SECONDS_IN_HOUR // self.simCustomers[hour]  # number of ticks between integer division of customers
         remainderTime = SECONDS_IN_HOUR % self.simCustomers[hour]
         return [exactTime, remainderTime]
 
