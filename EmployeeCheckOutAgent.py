@@ -67,6 +67,7 @@ class EmployeeCheckOutAgent(object):
         return self.total_items, len(self.customers), 'self'
 
     def display_line(self, grid):
+        print(len(self.customers))
         for y in range(len(self.customers)):
             curr = self.customers[y]
             grid[2 * y][self.x + SELF_WIDTH + 1] = curr.visual_attributes()[0]
