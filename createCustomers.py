@@ -6,7 +6,6 @@ import numpy as np
 
 def createCustomers():
     customers = []
-    poissArray = []
 
     # uses the foot traffic file
     with open('Data.csv') as file:
@@ -20,11 +19,9 @@ def createCustomers():
 
     # -------------------------create array of Poisson-distributed customer numbers, one per hour---------------------#
 
-    rate = 0            # keep track of each number of customers each hour as a baseline average
     simNumCustomers = []           # this is the number of arrivals in the simulation
     MAX_ARRIVALS = 10000   # upper limit on number of people in an hour
     hour = 0           # keep track of the portions of an hour that have been used
-    difTIme = 0
     numCustomers = 0
 
     # for each hour
