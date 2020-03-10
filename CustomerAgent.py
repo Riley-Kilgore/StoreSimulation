@@ -37,7 +37,7 @@ class CustomerAgent(object):
         else:
             self.cartSize = random.randint(21, 60)
 
-    def process_with(self, secPerItem, timeOffset):
+    def process_with(self, timeOffset, secPerItem):
         """
         Processes the items in the cart for the current time step.
         """

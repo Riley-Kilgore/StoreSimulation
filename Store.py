@@ -50,7 +50,7 @@ class Store(object):
 
         numNewCustomers = 0                         # this is the number of customers added during this tick
 
-        if self.time_of_hour // self.timeDif[0] is 0:    # if the time between customers arriving has elapsed
+        if self.time_of_hour % self.timeDif[0] is 0:    # if the time between customers arriving has elapsed
 
             numNewCustomers += 1
             self.remainderTimeSum += self.timeDif[1]
@@ -62,11 +62,11 @@ class Store(object):
 
         for newCustomer in range(numNewCustomers):      # for the number of customers to be generated
             customer = CustomerAgent()
-            lane = choose_checkout(len(self.store))          # chooses the register number to go to
+            lane = choose_checkout(len(self.store) - 1)          # chooses the register number to go to
             self.store[lane].addToLine(customer)        # adds the customer to the register object
 
         for i, each in enumerate(self.store):
-            print(f"Processing line {i} of {len(self.store)}")
+            print(f"Processing line {i + 1} of {len(self.store)}")
             each.process()
 
         for register in self.store:
