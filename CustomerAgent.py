@@ -36,6 +36,9 @@ class CustomerAgent(object):
         else:
             self.cartSize = random.randint(21, 60)
 
+        # default cart size for now, for debugging purposes
+        self.cartSize = 20
+        
     def process_step(self, store):
         """
         Given the store, a customer can process a single unit of time for themselves.
