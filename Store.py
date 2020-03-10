@@ -62,7 +62,7 @@ class Store(object):
 
         for newCustomer in range(numNewCustomers):      # for the number of customers to be generated
             customer = CustomerAgent()
-            lane = choose_checkout(self.store)          # chooses the register number to go to
+            lane = choose_checkout(len(self.store))          # chooses the register number to go to
             self.store[lane].addToLine(customer)        # adds the customer to the register object
 
         for i, each in enumerate(self.store):
