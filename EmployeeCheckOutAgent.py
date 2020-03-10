@@ -9,7 +9,7 @@ from constants import *
 
 
 class EmployeeCheckOutAgent(object):
-    customersProcessed = 0
+
 
     def __init__(self, x, y):
         self.secPerItem = 2
@@ -19,6 +19,7 @@ class EmployeeCheckOutAgent(object):
         self.total_items = 0
         self.x = x
         self.y = y
+        self.customersProcessed = 0
 
 
     @staticmethod

@@ -2,8 +2,8 @@ from Store import Store
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 
-store = Store(10)
-time = 86400
+store = Store(1)
+time = 100
 grids_over_time = []
 
 for t in range(time):
@@ -16,8 +16,11 @@ totalProcessed = 0
 for register in store.store:
     totalProcessed += register.customersProcessed
 
+totalCustomers = 0
+for i in range(24):
+    totalCustomers += store.simCustomers[i]
 
-print("Total customers in hour ", store.hour[0], ":", store.simCustomers[0])
+print("Total customers:", totalCustomers)
 print("Customers Processed: ", totalProcessed)
 
 

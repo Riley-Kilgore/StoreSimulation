@@ -25,11 +25,12 @@ def createCustomers():
     numCustomers = 0
 
     # for each hour
-    for i in np.arange(1, len(customers)):
+    for i in np.arange(0, len(customers)):
         rate = customers[i]     # this many customers observed  walk in to the store this hour
 
         while hour < 1 and numCustomers < MAX_ARRIVALS:
-            rand = random.random()     # probability value to use in inverse CDF
+            # probability value to use in inverse CDF
+            rand = random.random()
 
             # use random value to find arrival time between customers using inverse cumulative distribution function
             difTime = -math.log(1.0 - rand)/rate

@@ -30,9 +30,8 @@ class Store(object):
         self.fig = plt.figure()
 
         for i in range(n):
-            checkout = EmployeeCheckOutAgent(
-                i * (EMPLOYEE_WIDTH + SPACE_BETWEEN), 0) if random() < .5 else SelfCheckOutAgent(
-                i * (SELF_WIDTH + SPACE_BETWEEN))
+            checkout = EmployeeCheckOutAgent(i * (EMPLOYEE_WIDTH + SPACE_BETWEEN), 0)
+            # if random() < .5 else SelfCheckOutAgent(i * (SELF_WIDTH + SPACE_BETWEEN))
             self.store.append(checkout)
 
         self.grid = self.init_grid()
@@ -65,7 +64,7 @@ class Store(object):
         # for the number of customers to be generated
         for newCustomer in range(numNewCustomers):
             # the customers spawn opposite the registers, and randomly spaced along that border
-            rowPosition = random.randint(0, LENGTH)
+            rowPosition = np.random.randint(0, LENGTH)
 
             # generates the customer along the bottom row, randomly placed
             customer = CustomerAgent(rowPosition, WIDTH - 1)

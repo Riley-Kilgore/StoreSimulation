@@ -9,7 +9,7 @@ from constants import *
 
 
 class SelfCheckOutAgent(object):
-    customersProcessed = 0
+
 
     def __init__(self, x):
         self.secPerItem = 5
@@ -18,6 +18,7 @@ class SelfCheckOutAgent(object):
         self.eventClock = 0
         self.total_items = 0
         self.x = x
+        self.customersProcessed = 0
 
 
     @staticmethod
