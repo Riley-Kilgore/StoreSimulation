@@ -31,7 +31,7 @@ class Store(object):
 
         for i in range(n):
             checkout = EmployeeCheckOutAgent(
-                i * (EMPLOYEE_WIDTH + SPACE_BETWEEN)) if random() < .5 else SelfCheckOutAgent(
+                i * (EMPLOYEE_WIDTH + SPACE_BETWEEN), 0) if random() < .5 else SelfCheckOutAgent(
                 i * (SELF_WIDTH + SPACE_BETWEEN))
             self.store.append(checkout)
 
@@ -55,13 +55,26 @@ class Store(object):
 
         # if the fractional time has added up to one or more, then account for remainder sec/customer generation
         if self.remainderTimeSum >= 1.0:
+
+            # add a new customer due to the fractional customers adding up to 1, similar to leap day
             numNewCustomers += 1
+
+            # reduces the remainder by 1 instead of setting to zero, to account for some leftover time that could add up
             self.remainderTimeSum -= 1
 
-        for newCustomer in range(numNewCustomers):      # for the number of customers to be generated
-            customer = CustomerAgent()
-            lane = choose_checkout(len(self.store) - 1)          # chooses the register number to go to
-            self.store[lane].addToLine(customer)        # adds the customer to the register object
+        # for the number of customers to be generated
+        for newCustomer in range(numNewCustomers):
+            # the customers spawn opposite the registers, and randomly spaced along that border
+            rowPosition = random.randint(0, LENGTH)
+
+            # generates the customer along the bottom row, randomly placed
+            customer = CustomerAgent(rowPosition, WIDTH - 1)
+
+            # chooses the register number to go to
+            lane = choose_checkout(len(self.store) - 1)
+
+            # adds the customer to the register object
+            self.store[lane].addToLine(customer)
 
         for i, each in enumerate(self.store):
             print(f"Register {i + 1} at {self.time_of_hour} seconds has processed {each.customersProcessed} people")
