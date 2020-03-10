@@ -35,7 +35,7 @@ class SelfCheckOutAgent(object):
         if self.currentCustomer is None:
             self.eventClock = 0
         self.currentCustomer = self.currentCustomer if self.currentCustomer is not None else self.customers.get()
-        self.currentCustomer = self.currentCustomer.process_with(self.secPerItem, self.eventClock)
+        self.currentCustomer = self.currentCustomer.process_with(self.eventClock, self.secPerItem)
         self.tick()
         return self.currentCustomer
 
