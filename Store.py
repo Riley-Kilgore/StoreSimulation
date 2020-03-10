@@ -21,6 +21,8 @@ class Store(object):
         self.time_of_hour = 0           # this is the number of seconds into the hour
         self.remainderTimeSum = 0       # this is to keep track of the remainder time between customers
         self.hour = 0
+
+
         
         self.simCustomers = createCustomers()
         self.timeDif = self.timeBetweenCustomers(self.hour)
@@ -35,9 +37,6 @@ class Store(object):
             self.store.append(checkout)
 
         self.grid = self.init_grid()
-        self.im = plt.imshow(self.grid, animated=True)
-        self.ani = FuncAnimation(self.fig, self.updateSimulation, interval=100, blit=True)
-        plt.show()
 
     def run_step(self):
         """
@@ -66,7 +65,7 @@ class Store(object):
             self.store[lane].addToLine(customer)        # adds the customer to the register object
 
         for i, each in enumerate(self.store):
-            print(f"Processing line {i + 1} of {len(self.store)}")
+            print(f"Register {i + 1} at {self.time_of_hour} seconds has processed {each.customersProcessed} people")
             each.process()
 
         for register in self.store:

@@ -9,6 +9,8 @@ from constants import *
 
 
 class EmployeeCheckOutAgent(object):
+    customersProcessed = 0
+
     def __init__(self, x):
         self.secPerItem = 2
         self.customers = queue.Queue()
@@ -32,9 +34,12 @@ class EmployeeCheckOutAgent(object):
         """
         if self.customers.empty() and not self.currentCustomer:
             return None
+
         if self.currentCustomer is None:
             self.eventClock = 0
-        self.currentCustomer = self.currentCustomer if self.currentCustomer is not None else self.customers.get()
+            self.currentCustomer = self.customers.get()
+            self.customersProcessed += 1
+
         self.currentCustomer = self.currentCustomer.process_with(self.eventClock, self.secPerItem)
         self.tick()
         return self.currentCustomer
@@ -59,6 +64,6 @@ class EmployeeCheckOutAgent(object):
     def display_line(self, grid):
         for y in range(self.customers.qsize()):
             curr = self.customers.get()
-            grid[2 * y][self.x + EMPLOYEE_WIDTH + 1] = curr.visual_attributes()
+            # grid[2 * y][self.x + EMPLOYEE_WIDTH + 1] = curr.visual_attributes()
             self.customers.put(curr)
         return grid
