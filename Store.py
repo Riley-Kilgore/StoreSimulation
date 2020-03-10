@@ -57,7 +57,7 @@ class Store(object):
         # if the fractional time has added up to one or more, then account for remainder sec/customer generation
         if self.remainderTimeSum >= 1.0:
             numNewCustomers += 1
-            self.remainderTimeSum = 0
+            self.remainderTimeSum -= 1
 
         for newCustomer in range(numNewCustomers):      # for the number of customers to be generated
             customer = CustomerAgent()
