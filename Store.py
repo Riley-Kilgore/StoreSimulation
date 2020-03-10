@@ -84,9 +84,18 @@ class Store(object):
             self.time_of_hour = 0                           # restarts the hourly clock, which is in seconds
 
     def timeBetweenCustomers(self, hour):
-        exactTime = SECONDS_IN_HOUR // self.simCustomers[hour]  # number of ticks between integer division of customers
+        # number of ticks between integer division of customers to track the time between customers arriving
+        exactTime = SECONDS_IN_HOUR // self.simCustomers[hour]
+
+        # the remainderTime is the fractional number of seconds between customers
         remainderTime = SECONDS_IN_HOUR % self.simCustomers[hour]
-        return [exactTime, remainderTime]
+
+        # divide the remainder time by the total customers to find the fraction of seconds that need to be summed
+        fractionalTime = remainderTime / self.simCustomers[hour]
+
+        # round to ease computational complexity
+        roundedFractionTime = round(fractionalTime, 3)
+        return [exactTime, roundedFractionTime]
 
     # Initializes the visualization grid 
     def init_grid(self):
