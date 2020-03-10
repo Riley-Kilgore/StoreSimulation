@@ -2,7 +2,7 @@ from Store import Store
 import matplotlib.pyplot as plt
 from matplotlib.animation import ArtistAnimation
 
-numRegisters = 2
+numRegisters = 1
 
 store = Store(numRegisters)
 time = 864
