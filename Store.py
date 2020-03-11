@@ -16,11 +16,14 @@ from createCustomers import createCustomers
 
 class Store(object):
     # Constructor
-    def __init__(self, n):
+    def __init__(self, n, secPerItemE, secPerItemS, chanceSelfCheckout,
+                 customerSpawnRate):
         self.time_of_day = 0            # this is number of seconds into the day
         self.time_of_hour = 0           # this is the number of seconds into the hour
         self.remainderTimeSum = 0       # this is to keep track of the remainder simTime between customers
         self.hour = 0
+        self.temp_total = 0
+        self.customerSpawnRate = customerSpawnRate
 
         
         self.simCustomers, self.totalCustomers = createCustomers()
@@ -30,7 +33,11 @@ class Store(object):
         # self.fig = plt.figure()
 
         for i in range(n):
-            checkout = EmployeeCheckOutAgent(i * (EMPLOYEE_WIDTH + SPACE_BETWEEN), 0)
+            checkout = None
+            if random() < chanceSelfCheckout:
+                checkout = EmployeeCheckOutAgent(i * (EMPLOYEE_WIDTH + SPACE_BETWEEN), 0, secPerItemE)
+            else:
+                checkout = SelfCheckOutAgent(0, 0, secPerItemS)
             # if random() < .5 else SelfCheckOutAgent(i * (SELF_WIDTH + SPACE_BETWEEN))
             self.store.append(checkout)
 
@@ -48,9 +55,9 @@ class Store(object):
         numNewCustomers = 0                         # this is the number of customers added during this tick
 
         if self.time_of_hour % self.timeDif[0] == 0:    # if the simTime between customers arriving has elapsed
-
-            numNewCustomers += 1
-            self.remainderTimeSum += self.timeDif[1]
+            if random() < self.customerSpawnRate:
+                numNewCustomers += 1
+                self.remainderTimeSum += self.timeDif[1]
 
         # if the fractional simTime has added up to one or more, then account for remainder sec/customer generation
         if self.remainderTimeSum >= 1.0:
@@ -62,6 +69,7 @@ class Store(object):
             self.remainderTimeSum -= 1
 
         # for the number of customers to be generated
+        self.temp_total += numNewCustomers
         for newCustomer in range(numNewCustomers):
             # the customers spawn opposite the registers, and randomly spaced along that border
             rowPosition = np.random.randint(0, LENGTH)
@@ -78,7 +86,7 @@ class Store(object):
         for i, each in enumerate(self.store):
             print(f"Register {i + 1} at {self.time_of_day} seconds has processed {each.customersProcessed} people")
             each.process()
-        print("="*50)
+        #print("="*50)
             
         # for register in self.store:
         #     self.grid = register.display_line(self.grid)

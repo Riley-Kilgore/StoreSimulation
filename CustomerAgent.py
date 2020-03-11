@@ -67,7 +67,7 @@ class CustomerAgent(object):
         Processes the items in the cart for the current simTime step.
         """
         # increments customer waiting simTime
-        self.timeElapsed += 1
+        self.tick()
 
         # If the customer is out of items:
         if self.cartSize == 0:
@@ -97,3 +97,6 @@ class CustomerAgent(object):
         if timeOffset - startTime >= 85:
             # WOOOO, we are released.
             self.finished = True
+
+    def tick(self):
+        self.timeElapsed += 1

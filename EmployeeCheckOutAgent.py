@@ -6,13 +6,15 @@ The EmployeeCheckOutAgent implements methods to process customers, add them to
 # TODO REMOVE ALL MAGIC NUMBERS, REPLACE WITH CONST NAMES
 import queue
 from constants import *
+import numpy as np
 
 
 class EmployeeCheckOutAgent(object):
 
 
-    def __init__(self, x, y):
-        self.secPerItem = 2
+    def __init__(self, x, y, itemsPerMin):
+        self.itemsPerMin = itemsPerMin + np.random.normal(0,3)
+        self.secPerItem = int(60/itemsPerMin) 
         self.customers = queue.Queue()
         self.currentCustomer = None
         self.eventClock = 0
@@ -20,6 +22,7 @@ class EmployeeCheckOutAgent(object):
         self.x = x
         self.y = y
         self.customersProcessed = 0
+        self.totalWaitingTime = 0
 
 
     @staticmethod
@@ -34,7 +37,7 @@ class EmployeeCheckOutAgent(object):
         Post-Condition: self.currentCustomer is updated and simTime ticks.
         Return: The current customer. None if customer has just paid or if queue is empty.
         """
-        print("Length:", self.customers.qsize())
+        #print("Length:", self.customers.qsize())
         
         if self.customers.empty() and not self.currentCustomer:
             return None
@@ -44,6 +47,7 @@ class EmployeeCheckOutAgent(object):
             self.eventClock = 0
             if not self.customers.empty():
                 self.currentCustomer = self.customers.get()
+                self.totalWaitingTime += self.currentCustomer.timeElapsed
                 self.customersProcessed += 1
             else:
                 self.currentCustomer = None
@@ -54,6 +58,8 @@ class EmployeeCheckOutAgent(object):
         self.total_items -= currItems - self.currentCustomer.cartSize
 
         self.tick()
+        for customer in list(self.customers.queue):
+            customer.tick()
         return self.currentCustomer
 
     def tick(self):
