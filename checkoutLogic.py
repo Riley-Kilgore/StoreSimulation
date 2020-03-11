@@ -36,7 +36,7 @@ def move_towards_location(x1, y1, x2, y2):
     """
     Given the location of a customer and the location of the back
       of the line of a register, get the location for the customemr
-      at the next time step.
+      at the next simTime step.
     """
     delta_x = x2 - x1
     delta_y = y2 - y1

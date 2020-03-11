@@ -32,10 +32,10 @@ def createCustomers():
             # probability value to use in inverse CDF
             rand = random.random()
 
-            # use random value to find arrival time between customers using inverse cumulative distribution function
+            # use random value to find arrival simTime between customers using inverse cumulative distribution function
             difTime = -math.log(1.0 - rand)/rate
 
-            # use this to keep track of percent of an hour so as to not exceed the time limit
+            # use this to keep track of percent of an hour so as to not exceed the simTime limit
             hour += difTime
             numCustomers += 1
 

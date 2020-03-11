@@ -42,9 +42,11 @@ class CustomerAgent(object):
 
     def process_step(self, store):
         """
-        Given the store, a customer can process a single unit of time for themselves.
+        Given the store, a customer can process a single unit of simTime for themselves.
         """
+        # increments customer waiting simTime
         self.timeElapsed += 1
+
         event_occured = False
         if not self.movingToLine:
             self.line = store.store[choose_checkout(len(store.store))]
@@ -62,29 +64,34 @@ class CustomerAgent(object):
 
     def process_with(self, timeOffset, secPerItem):
         """
-        Processes the items in the cart for the current time step.
+        Processes the items in the cart for the current simTime step.
         """
-        # increments customer waiting time
+        # increments customer waiting simTime
         self.timeElapsed += 1
 
         # If the customer is out of items:
         if self.cartSize == 0:
+
             # We check if they're in payment.
             if self.hasntPaid:
+
                 # If so, we set them to paying, and
                 self.hasntPaid = False
-                # we set the payment start time to the current offset.
+
+                # we set the payment start simTime to the current offset.
                 self.paymentTime = timeOffset
+
             # Now they are in payment mode no matter what, so we call payment.
             self.pay_for_cart(self.paymentTime, timeOffset)
-        # If it's time to move an item from the cart:
+
+        # If it's simTime to move an item from the cart:
         if timeOffset % secPerItem == 0 and self.hasntPaid:
             # Do it. Don't let your dreams be dreams.
             self.cartSize -= 1
 
     def pay_for_cart(self, startTime, timeOffset):
         """
-        Wait to pay and return None when it's time to leave.
+        Wait to pay and return None when it's simTime to leave.
         """
         # Are we done paying? 85 seconds, phew...
         if timeOffset - startTime >= 85:

@@ -19,7 +19,7 @@ class Store(object):
     def __init__(self, n):
         self.time_of_day = 0            # this is number of seconds into the day
         self.time_of_hour = 0           # this is the number of seconds into the hour
-        self.remainderTimeSum = 0       # this is to keep track of the remainder time between customers
+        self.remainderTimeSum = 0       # this is to keep track of the remainder simTime between customers
         self.hour = 0
 
         
@@ -27,7 +27,7 @@ class Store(object):
         self.timeDif = self.timeBetweenCustomers(self.hour)
 
         self.store = []
-        self.fig = plt.figure()
+        # self.fig = plt.figure()
 
         for i in range(n):
             checkout = EmployeeCheckOutAgent(i * (EMPLOYEE_WIDTH + SPACE_BETWEEN), 0)
@@ -47,18 +47,18 @@ class Store(object):
 
         numNewCustomers = 0                         # this is the number of customers added during this tick
 
-        if self.time_of_hour % self.timeDif[0] is 0:    # if the time between customers arriving has elapsed
+        if self.time_of_hour % self.timeDif[0] is 0:    # if the simTime between customers arriving has elapsed
 
             numNewCustomers += 1
             self.remainderTimeSum += self.timeDif[1]
 
-        # if the fractional time has added up to one or more, then account for remainder sec/customer generation
+        # if the fractional simTime has added up to one or more, then account for remainder sec/customer generation
         if self.remainderTimeSum >= 1.0:
 
             # add a new customer due to the fractional customers adding up to 1, similar to leap day
             numNewCustomers += 1
 
-            # reduces the remainder by 1 instead of setting to zero, to account for some leftover time that could add up
+            # reduces the remainder by 1 instead of setting to zero, to account for some leftover simTime that could add up
             self.remainderTimeSum -= 1
 
         # for the number of customers to be generated
@@ -82,26 +82,26 @@ class Store(object):
         # for register in self.store:
         #     self.grid = register.display_line(self.grid)
 
-        self.time_of_day += 1                               # the time of the day increments by one
+        self.time_of_day += 1                               # the simTime of the day increments by one
         if self.time_of_hour != SECONDS_IN_HOUR:        # if still in the hour
             self.time_of_hour += 1
         else:                                               # else it is the top of the next hour
             self.hour = self.time_of_day // SECONDS_IN_HOUR  # finds the current hour of the day the simulator is at
 
             # timeDIf is a tuple, first element is the even ticks between people
-            # second element is the remainder time
+            # second element is the remainder simTime
             self.timeDif = self.timeBetweenCustomers(self.hour)
 
             self.time_of_hour = 0                           # restarts the hourly clock, which is in seconds
 
     def timeBetweenCustomers(self, hour):
-        # number of ticks between integer division of customers to track the time between customers arriving
+        # number of ticks between integer division of customers to track the simTime between customers arriving
         exactTime = SECONDS_IN_HOUR // self.simCustomers[hour]
 
         # the remainderTime is the fractional number of seconds between customers
         remainderTime = SECONDS_IN_HOUR % self.simCustomers[hour]
 
-        # divide the remainder time by the total customers to find the fraction of seconds that need to be summed
+        # divide the remainder simTime by the total customers to find the fraction of seconds that need to be summed
         fractionalTime = remainderTime / self.simCustomers[hour]
 
         # round to ease computational complexity

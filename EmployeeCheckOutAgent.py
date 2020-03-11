@@ -13,13 +13,13 @@ class EmployeeCheckOutAgent(object):
 
     def __init__(self, x, y):
         self.secPerItem = 2
-        self.customers = []
+        self.customers = queue.Queue()
         self.currentCustomer = None
-        self.eventClock = 1
+        self.eventClock = 0
         self.total_items = 0
         self.x = x
         self.y = y
-        self.customersProcessed = 0
+        self.customersProcessed = -1
 
 
     @staticmethod
@@ -29,23 +29,22 @@ class EmployeeCheckOutAgent(object):
 
     def process(self):
         """
-        Processes one step of time.
+        Processes one step of simTime.
         Pre-Condition: self is set up and is valid.
-        Post-Condition: self.currentCustomer is updated and time ticks.
+        Post-Condition: self.currentCustomer is updated and simTime ticks.
         Return: The current customer. None if customer has just paid or if queue is empty.
         """
-        if len(self.customers) == 0 and not self.currentCustomer:
+        if self.customers.empty() and not self.currentCustomer:
             return None
-        if self.currentCustomer is None:
-            self.eventClock = 0
 
-        if self.currentCustomer is None:
+        # if there is no customer being processed or the current one is done paying, get a new customer
+        if self.currentCustomer is None or self.currentCustomer.finished:
             self.eventClock = 0
-            self.currentCustomer = self.customers[0]
-            del self.customers[0]
+            self.currentCustomer = self.customers.get()
             self.customersProcessed += 1
 
-        self.currentCustomer = self.currentCustomer.process_with(self.eventClock, self.secPerItem)
+
+        self.currentCustomer.process_with(self.eventClock, self.secPerItem)
         self.tick()
         return self.currentCustomer
 
@@ -59,16 +58,16 @@ class EmployeeCheckOutAgent(object):
         """
         Add the given customer to the internal queue.
         """
-        self.customers.append(customer)
+        self.customers.put(customer)
 
     def get_decision_factors(self):
-        # In order of priority: 
+        # In order of priority:
         # line length, total items across the lime, and type of checkout station
-        return self.total_items, len(self.customers), 'self'
+        return self.total_items, self.customers.qsize(), 'self'
 
     def display_line(self, grid):
-        print(len(self.customers))
-        for y in range(len(self.customers)):
-            curr = self.customers[y]
-            grid[2 * y][self.x + SELF_WIDTH + 1] = curr.visual_attributes()[0]
+        for y in range(self.customers.qsize()):
+            curr = self.customers.get()
+            # grid[2 * y][self.x + EMPLOYEE_WIDTH + 1] = curr.visual_attributes()
+            self.customers.put(curr)
         return grid

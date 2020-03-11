@@ -28,9 +28,9 @@ class SelfCheckOutAgent(object):
 
     def process(self):
         """
-        Processes one step of time.
+        Processes one step of simTime.
         Pre-Condition: self is set up and is valid.
-        Post-Condition: self.currentCustomer is updated and time ticks.
+        Post-Condition: self.currentCustomer is updated and simTime ticks.
         Return: The current customer. None if customer has just paid or if queue is empty.
         """
         if len(self.customers) == 0 and not self.currentCustomer:
