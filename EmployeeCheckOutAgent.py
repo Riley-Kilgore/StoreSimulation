@@ -19,7 +19,7 @@ class EmployeeCheckOutAgent(object):
         self.total_items = 0
         self.x = x
         self.y = y
-        self.customersProcessed = -1
+        self.customersProcessed = 0
 
 
     @staticmethod
@@ -34,17 +34,25 @@ class EmployeeCheckOutAgent(object):
         Post-Condition: self.currentCustomer is updated and simTime ticks.
         Return: The current customer. None if customer has just paid or if queue is empty.
         """
+        print("Length:", self.customers.qsize())
+        
         if self.customers.empty() and not self.currentCustomer:
             return None
 
         # if there is no customer being processed or the current one is done paying, get a new customer
         if self.currentCustomer is None or self.currentCustomer.finished:
             self.eventClock = 0
-            self.currentCustomer = self.customers.get()
-            self.customersProcessed += 1
+            if not self.customers.empty():
+                self.currentCustomer = self.customers.get()
+                self.customersProcessed += 1
+            else:
+                self.currentCustomer = None
+                return None
 
-
+        currItems = self.currentCustomer.cartSize
         self.currentCustomer.process_with(self.eventClock, self.secPerItem)
+        self.total_items -= currItems - self.currentCustomer.cartSize
+
         self.tick()
         return self.currentCustomer
 
@@ -59,11 +67,12 @@ class EmployeeCheckOutAgent(object):
         Add the given customer to the internal queue.
         """
         self.customers.put(customer)
+        self.total_items += customer.cartSize
 
     def get_decision_factors(self):
         # In order of priority:
         # line length, total items across the lime, and type of checkout station
-        return self.total_items, self.customers.qsize(), 'self'
+        return self.total_items, self.customers.qsize(), 'employee'
 
     def display_line(self, grid):
         for y in range(self.customers.qsize()):

@@ -11,9 +11,8 @@ def choose_checkout(lines):
 
     for line in lines:
         stats = line.get_decision_factors()
-
         # if carts in the new line have visibly fewer items than the current best line
-        if stats[0] + (VISIBLE_ITEM_FRAC * stats[1]) <= best_stats[0]:
+        if stats[0] + (VISIBLE_ITEM_FRAC * stats[0]) <= best_stats[0]:
             curr_choice = index
             best_stats = stats
 
@@ -27,9 +26,10 @@ def choose_checkout(lines):
             curr_choice = index
             best_stats = stats
 
-            index += 1
+        index += 1
 
     return curr_choice
+    #return random.randint(0, len(lines) - 1)
 
 
 def move_towards_location(x1, y1, x2, y2):

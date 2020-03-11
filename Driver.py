@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import time
 from matplotlib.animation import ArtistAnimation
 
-numRegisters = 1
+numRegisters = 4
 
 store = Store(numRegisters)
 simTime = 86400
@@ -42,4 +42,4 @@ print("Time per person: ", round(simTime / (totalProcessed / numRegisters), 2), 
 
 # animation = ArtistAnimation(fig, ims, interval=10, blit=True)
 
-plt.show()
+# plt.show()

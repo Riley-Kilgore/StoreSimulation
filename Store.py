@@ -47,7 +47,7 @@ class Store(object):
 
         numNewCustomers = 0                         # this is the number of customers added during this tick
 
-        if self.time_of_hour % self.timeDif[0] is 0:    # if the simTime between customers arriving has elapsed
+        if self.time_of_hour % self.timeDif[0] == 0:    # if the simTime between customers arriving has elapsed
 
             numNewCustomers += 1
             self.remainderTimeSum += self.timeDif[1]
@@ -78,7 +78,8 @@ class Store(object):
         for i, each in enumerate(self.store):
             print(f"Register {i + 1} at {self.time_of_day} seconds has processed {each.customersProcessed} people")
             each.process()
-
+        print("="*50)
+            
         # for register in self.store:
         #     self.grid = register.display_line(self.grid)
 
