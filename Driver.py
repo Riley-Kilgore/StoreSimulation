@@ -1,4 +1,4 @@
-from Store import Store
+from Store import Store, SelfCheckOutAgent, EmployeeCheckOutAgent
 import matplotlib.pyplot as plt
 import time
 from matplotlib.animation import ArtistAnimation
@@ -32,9 +32,16 @@ def get_store_metrics(numRegisters, secPerItemE, secPerItemS,
         #totalCustomers += store.simCustomers[i]
 
     totalWaitTime = 0
+    self_kiosks = 0
+    emp_regs = 0
+    self_type = type(SelfCheckOutAgent(0, 0, 0))
+    emp_type = type(EmployeeCheckOutAgent(0, 0, 0))
     for each in store.store:
         totalWaitTime += each.totalWaitingTime
-
+        val = 1 if type(each) == self_type else 0
+        self_kiosks += val 
+        val = 1 if type(each) == emp_type else 0
+        emp_regs += val
 
     print(f"Avg Waiting Time: {totalWaitTime/(60*store.temp_total)}")
     print(f"Total waiting time: {totalWaitTime/60} minutes.")
@@ -43,7 +50,7 @@ def get_store_metrics(numRegisters, secPerItemE, secPerItemS,
     print(f"Actual Total Customers: {store.temp_total}")
     print("Customers Processed: ", totalProcessed)
     print("Time per person: ", round(simTime / (totalProcessed / numRegisters), 2), "seconds per customer")
-    return (totalWaitTime/(60*store.temp_total), store.temp_total, totalProcessed)
+    return (totalWaitTime/(60*store.temp_total), store.temp_total, totalProcessed, emp_regs, self_kiosks)
         
 
 
