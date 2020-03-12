@@ -66,10 +66,10 @@ if __name__ == "__main__":
     customerSpawnRate = 1
     #get_store_metrics(numRegisters, secPerItemE, secPerItemS, chanceSelfCheckout, customerSpawnRate)
 
-    register_list = [get_store_metrics(reg_val, secPerItemE, secPerItemS, chanceSelfCheckout, customerSpawnRate)
-                    for reg_val in [5, 10, 15, 20, 25, 30]]
-    employee_speed_list = [get_store_metrics(numRegisters, item_speed, secPerItemS, chanceSelfCheckout, customerSpawnRate)
-                    for item_speed in [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]]
+    # register_list = [get_store_metrics(reg_val, secPerItemE, secPerItemS, chanceSelfCheckout, customerSpawnRate)
+    #                 for reg_val in [5, 10, 15, 20, 25, 30]]
+    # employee_speed_list = [get_store_metrics(numRegisters, item_speed, secPerItemS, chanceSelfCheckout, customerSpawnRate)
+    #                 for item_speed in [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]]
     self_speed_list = [get_store_metrics(numRegisters, secPerItemE, item_speed, chanceSelfCheckout, customerSpawnRate)
                     for item_speed in [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]]
     chance_self_list = [get_store_metrics(numRegisters, secPerItemE, secPerItemS, indiv_chance, customerSpawnRate)
@@ -77,12 +77,12 @@ if __name__ == "__main__":
     spawn_rate_list = [get_store_metrics(numRegisters, secPerItemE, secPerItemS, chanceSelfCheckout, indiv_chance)
                     for indiv_chance in [.5, .6, .7, .8, .9]]
 
-    with open("register_data.csv", "w") as f:
+    """with open("register_data.csv", "w") as f:
         writer = csv.writer(f)
         writer.writerows(zip([5, 10, 15, 20, 25, 30], register_list))
     with open("employee_speed_data.csv", "w") as f:
         writer = csv.writer(f)
-        writer.writerows(zip([15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], employee_speed_list))
+        writer.writerows(zip([15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], employee_speed_list))"""
     with open("self_speed_data.csv", "w") as f:
         writer = csv.writer(f)
         writer.writerows(zip([10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20], self_speed_list))
