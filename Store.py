@@ -84,7 +84,7 @@ class Store(object):
             self.store[lane].addToLine(customer)
 
         for i, each in enumerate(self.store):
-            print(f"Register {i + 1} at {self.time_of_day} seconds has processed {each.customersProcessed} people")
+            # print(f"Register {i + 1} at {self.time_of_day} seconds has processed {each.customersProcessed} people")
             each.process()
         #print("="*50)
             

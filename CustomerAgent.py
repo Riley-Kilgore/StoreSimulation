@@ -38,7 +38,7 @@ class CustomerAgent(object):
             self.cartSize = random.randint(21, 60)
 
         # default cart size for now, for debugging purposes
-        self.cartSize = 20
+        # self.cartSize = 20
 
     def process_step(self, store):
         """
