@@ -34,8 +34,8 @@ def get_store_metrics(numRegisters, secPerItemE, secPerItemS,
     totalWaitTime = 0
     self_kiosks = 0
     emp_regs = 0
-    self_type = type(SelfCheckOutAgent(0, 0, 0))
-    emp_type = type(EmployeeCheckOutAgent(0, 0, 0))
+    self_type = type(SelfCheckOutAgent(0, 0, 15))
+    emp_type = type(EmployeeCheckOutAgent(0, 0, 25))
     for each in store.store:
         totalWaitTime += each.totalWaitingTime
         val = 1 if type(each) == self_type else 0
@@ -60,8 +60,8 @@ def get_store_metrics(numRegisters, secPerItemE, secPerItemS,
 
 if __name__ == "__main__":
     numRegisters = 15
-    secPerItemE = 2
-    secPerItemS =  2
+    secPerItemE = 25
+    secPerItemS =  15
     chanceSelfCheckout = .5
     customerSpawnRate = 1
     #get_store_metrics(numRegisters, secPerItemE, secPerItemS, chanceSelfCheckout, customerSpawnRate)
