@@ -4,6 +4,7 @@ import time
 import datetime
 from matplotlib.animation import ArtistAnimation
 import csv
+import itertools
 
 
 def get_store_metrics(numRegisters, secPerItemE, secPerItemS,
@@ -85,6 +86,13 @@ if __name__ == "__main__":
     testingSuite += 1
     print("Finished round ", testingSuite, "of 5")
 
+    employee_speed_self_chance_list = [
+        get_store_metrics(numRegisters, item_speed, secPerItemS, chance, customerSpawnRate)\
+            for item_speed in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                           29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40] for chance in\
+                           [.1, .2, .3, .4, .5, .6, .7, .8, .9, 1]
+    ]
+
     self_speed_list = [get_store_metrics(numRegisters, secPerItemE, item_speed, chanceSelfCheckout, customerSpawnRate)
                        for item_speed in [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]]
     testingSuite += 1
@@ -99,6 +107,16 @@ if __name__ == "__main__":
                        for indiv_chance in [.1, .2, .3, .4, .5]]
     testingSuite += 1
     print("Finished round ", testingSuite, "of 5")
+
+
+    list(itertools.product([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                              29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],[.1, .2, .3, .4, .5, .6, .7, .8, .9, 1]))
+
+
+    with open("employee_sp_chance_self.csv", "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(zip(list(itertools.product([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                              29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40],[.1, .2, .3, .4, .5, .6, .7, .8, .9, 1])), employee_speed_self_chance_list))
 
     with open("register_data_expanded.csv", "w") as f:
         writer = csv.writer(f)
