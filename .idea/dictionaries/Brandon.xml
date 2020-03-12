@@ -2,6 +2,13 @@
   <dictionary name="Brandon">
     <words>
       <w>indiv</w>
+      <w>numre</w>
+      <w>xcol</w>
+      <w>xdata</w>
+      <w>xlabel</w>
+      <w>ycol</w>
+      <w>ydata</w>
+      <w>ylabel</w>
     </words>
   </dictionary>
 </component>
