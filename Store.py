@@ -34,7 +34,8 @@ class Store(object):
 
         for i in range(n):
             checkout = None
-            if random() < chanceSelfCheckout:
+            #if random() < chanceSelfCheckout:
+            if i < n/2:
                 checkout = EmployeeCheckOutAgent(i * (EMPLOYEE_WIDTH + SPACE_BETWEEN), 0, secPerItemE)
             else:
                 checkout = SelfCheckOutAgent(0, 0, secPerItemS)

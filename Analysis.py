@@ -31,13 +31,15 @@ def plot(table, xcol, ycol, xlabel, ylabel, title):
 
     plt.title(title)
     plt.savefig(fname="plots/" + title.replace(" ", "_").replace("(", "").replace(")", "").replace("/", "") + ".png")
+    plt.show()
     plt.cla()
 
 
-employee_speed = get_table("employee_speed_data.csv")
-self_speed = get_table("self_speed_data.csv")
-self_prob = get_table("self_checkout_chance_data.csv")
-customer_spawn = get_table("register_data.csv")
+employee_speed = get_table("employee_speed_data_expanded.csv")
+self_speed = get_table("self_speed_data_expanded.csv")
+# self_prob = get_table("self_checkout_chance_data_expanded.csv")
+register_spawn = get_table("register_data_expanded.csv")
+customer_spawn = get_table("customer_spawn_rate_data_expanded")
 
 # Table Layout
 #
@@ -74,13 +76,18 @@ plot(self_speed, 0, 3,
      "Total Customers Processed vs. Self Checkout Speed")
 
 # probability of a self-checkout being the register vs mean customer wait time
-plot(self_prob, 0, 1,
+plot(register_spawn, 0, 1,
      "Self Checkout Spawn Probability",
      "Average Customer Wait Time (sec)",
      "Avg Customer Wait Time vs. Self Checkout Spawn Probability")
 
 # probability of a self-checkout being the register vs total customers processed
-plot(self_prob, 0, 3,
+plot(register_spawn, 0, 3,
      "Self Checkout Spawn Probability",
      "Total Customers Processed",
      "Total Customers Processed vs. Self Checkout Spawn Probability")
+
+plot(customer_spawn, 0, 1,
+     "Customer Spawn Probability",
+     "Average Customer Wait Time (sec)",
+     "Avg Customer Wait Time vs. Customer Spawn Probability")
