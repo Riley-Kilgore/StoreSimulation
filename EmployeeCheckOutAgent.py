@@ -13,7 +13,8 @@ class EmployeeCheckOutAgent(object):
 
 
     def __init__(self, x, y, itemsPerMin):
-        self.itemsPerMin = itemsPerMin + np.random.normal(0,3)
+        val = itemsPerMin + np.random.normal(0,3)
+        self.itemsPerMin = val if val > 0 else itemsPerMin
         self.secPerItem = int(60/itemsPerMin)
         self.customers = queue.Queue()
         self.currentCustomer = None
