@@ -49,7 +49,8 @@ def get_store_metrics(numRegisters, itemPerMinE, itemPerMinS,
       Num of Employee Registers, Num of Self-Checkout Kiosks.
     """
     # Get all store
-    store = Store(numRegisters, itemPerMinE, itemPerMinS, chanceSelfCheckout, customerSpawnRate) simTime = 86400
+    store = Store(numRegisters, itemPerMinE, itemPerMinS, chanceSelfCheckout, customerSpawnRate)
+    simTime = 86400
     
     start = time.process_time()
 
@@ -101,6 +102,7 @@ if __name__ == "__main__":
     startTime = datetime.datetime.now().replace(microsecond=0)
 
     testingSuite = 0
+<<<<<<< HEAD
     print("Finished round ", testingSuite, "of 5")
     register_list = [get_store_metrics(reg_val, itemPerMinE, itemPerMinS, chanceSelfCheckout, customerSpawnRate)
                      for reg_val in REG_LIST]
@@ -122,12 +124,38 @@ if __name__ == "__main__":
                        for item_speed in ITEM_S_LIST]
     testingSuite += 1
     print("Finished round ", testingSuite, "of 5")
+=======
+    # print("Finished round ", testingSuite, "of 5")
+    # register_list = [get_store_metrics(reg_val, secPerItemE, secPerItemS, chanceSelfCheckout, customerSpawnRate)
+    #                  for reg_val in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30]]
+    # testingSuite += 1
+    # print("Finished round ", testingSuite, "of 5")
+    #
+    # employee_speed_list = [
+    #     get_store_metrics(numRegisters, item_speed, secPerItemS, chanceSelfCheckout, customerSpawnRate)
+    #     for item_speed in [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    #                        29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]]
+    # testingSuite += 1
+    # print("Finished round ", testingSuite, "of 5")
+
+    employee_speed_self_chance_list = [
+        get_store_metrics(numRegisters, item_speed, secPerItemS, chance, customerSpawnRate) \
+        for item_speed in [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                           29, 30] for chance in
+        [.4, .5, .6, .7, .8, .9, 1]
+    ]
+
+    # self_speed_list = [get_store_metrics(numRegisters, secPerItemE, item_speed, chanceSelfCheckout, customerSpawnRate)
+    #                    for item_speed in [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]]
+    # testingSuite += 1
+>>>>>>> a1e7de8096ae1f2cfc9aeb2b2db15fb80b71c347
 
     chance_self_list = [get_store_metrics(numRegisters, itemPerMinE, itemPerMinS, indiv_chance, customerSpawnRate)
                          for indiv_chance in SELF_CHECK_SPAWN]
     testingSuite += 1
     print("Finished round ", testingSuite, "of 5")
 
+<<<<<<< HEAD
     spawn_rate_list = [get_store_metrics(numRegisters, itemPerMinE, itemPerMinS, chanceSelfCheckout, indiv_chance)
                        for indiv_chance in CUSTOMER_SPAWN]
     testingSuite += 1
@@ -155,6 +183,36 @@ if __name__ == "__main__":
     with open("customer_spawn_rate_data_expanded", "w") as f:
         writer = csv.writer(f)
         writer.writerows(zip(CUSTOMER_SPAWN, spawn_rate_list))
+=======
+    # spawn_rate_list = [get_store_metrics(numRegisters, secPerItemE, secPerItemS, chanceSelfCheckout, indiv_chance)
+    #                    for indiv_chance in [.1, .2, .3, .4, .5]]
+    # testingSuite += 1
+    # print("Finished round ", testingSuite, "of 5")
+
+    with open("employee_sp_chance_self.csv", "w") as f:
+        writer = csv.writer(f)
+        writer.writerows(zip(list(itertools.product([15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+                                                     29, 30], [.4, .5, .6, .7, .8, .9, 1])),
+                             employee_speed_self_chance_list))
+
+    # with open("register_data_expanded.csv", "w") as f:
+    #     writer = csv.writer(f)
+    #     writer.writerows(zip([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 25, 30], register_list))
+    # with open("employee_speed_data_expanded.csv", "w") as f:
+    #     writer = csv.writer(f)
+    #     writer.writerows(zip([5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+    #                           29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40], employee_speed_list))
+    # with open("self_speed_data_expanded.csv", "w") as f:
+    #     writer = csv.writer(f)
+    #     writer.writerows(zip([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
+    #                          self_speed_list))
+    # with open("self_checkout_chance_data_expanded.csv", "w") as f:
+    #     writer = csv.writer(f)
+    #     writer.writerows(zip([.1, .2, .3, .4, .5], chance_self_list))
+    # with open("customer_spawn_rate_data_expanded", "w") as f:
+    #     writer = csv.writer(f)
+    #     writer.writerows(zip([.1, .2, .3, .4, .5, .6, .7, .8, .9, 1], spawn_rate_list))
+>>>>>>> a1e7de8096ae1f2cfc9aeb2b2db15fb80b71c347
 
     endTime = datetime.datetime.now().replace(microsecond=0)
     print("The simulation suite took ", endTime - startTime, "to run")
